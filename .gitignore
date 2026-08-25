@@ -1,0 +1,45 @@
+# Build results
+bin/
+obj/
+out/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+
+# Test results
+[Tt]est[Rr]esult*/
+*.trx
+
+# NuGet
+*.nupkg
+**/packages/*
+!**/packages/build/
+*.nuget.props
+*.nuget.targets
+
+# EF Core migrations bundle 
+efbundle
+
+# User secrets / local config
+appsettings.Development.json
+appsettings.*.local.json
+secrets.json
+
+# Logs
+logs/
+*.log
+
+# Publish output
+publish/
+PublishProfiles/
