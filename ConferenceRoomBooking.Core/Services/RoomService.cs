@@ -6,12 +6,12 @@ namespace ConferenceRoomBooking.Core.Services;
 public class RoomService : IRoomService
 {
     private readonly IRoomRepository _roomRepository;
-    private readonly IBookingRepository _bookingRepository;
-    
-    public RoomService(IRoomRepository roomRepository, IBookingRepository bookingRepository)
+    private readonly IBookingAvailabilityChecker _bookingAvailabilityChecker;
+
+    public RoomService(IRoomRepository roomRepository, IBookingAvailabilityChecker bookingAvailabilityChecker)
     {
         _roomRepository = roomRepository;
-        _bookingRepository = bookingRepository;
+        _bookingAvailabilityChecker = bookingAvailabilityChecker;
     }
 
     public Room CreateRoom(string name, int capacity, decimal basePricePerHour, List<Guid> serviceIds)
@@ -95,17 +95,6 @@ public class RoomService : IRoomService
     {
         var candidateRooms = _roomRepository.GetAll().Where(r => r.Capacity >= minCapacity);
 
-        return candidateRooms.Where(room => !HasConflictingBooking(room.Id, date, startTime, endTime));
-    }
-
-    private bool HasConflictingBooking(Guid roomId, DateOnly date, TimeOnly startTime, TimeOnly endTime)
-    {
-        var bookingsOnDate = _bookingRepository.GetByRoomAndDate(roomId, date);
-
-        return bookingsOnDate.Any(b => IntervalsOverlap(startTime, endTime, b.StartTime, b.EndTime));
-    }
-    private static bool IntervalsOverlap(TimeOnly newStart, TimeOnly newEnd, TimeOnly existingStart, TimeOnly existingEnd)
-    {
-        return newEnd > existingStart && newStart < existingEnd;
+        return candidateRooms.Where(room => !_bookingAvailabilityChecker.HasConflictingBooking(room.Id, date, startTime, endTime));
     }
 }

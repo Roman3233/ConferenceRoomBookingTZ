@@ -1,4 +1,5 @@
 using ConferenceRoomBooking.Core.Interfaces;
+using ConferenceRoomBooking.Core.Services;
 using ConferenceRoomBooking.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IRoomRepository, InMemoryRoomRepository>();
 builder.Services.AddSingleton<IBookingRepository, InMemoryBookingRepository>();
 builder.Services.AddSingleton<IServiceRepository, InMemoryServiceRepository>();
+builder.Services.AddSingleton<IBookingAvailabilityChecker, BookingAvailabilityChecker>();
 
 var app = builder.Build();
 
