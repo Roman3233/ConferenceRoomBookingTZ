@@ -61,7 +61,7 @@ public class InMemoryBookingRepository : IBookingRepository
             return _bookings.ToList();
         }
     }
-
+    // Отримання всіх бронювань для конкретного залу на певну дату
     public IEnumerable<Booking> GetByRoomAndDate(Guid roomId, DateOnly date)
     {
         lock (_lock)

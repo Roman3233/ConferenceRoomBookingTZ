@@ -58,7 +58,7 @@ public class RoomService : IRoomService
         {
             throw new ArgumentException("Base price must be greater than zero.", nameof(basePricePerHour));
         }
-
+        // Якщо поля не null, то вони будуть оновлені
         if (name is not null)
         {
             room.Name = name;
@@ -90,7 +90,7 @@ public class RoomService : IRoomService
             throw new InvalidOperationException($"Room with id {roomId} not found.");
         }
     }
-
+    // Пошук вільних залів
     public IEnumerable<Room> FindAvailableRooms(DateOnly date, TimeOnly startTime, TimeOnly endTime, int minCapacity)
     {
         var candidateRooms = _roomRepository.GetAll().Where(r => r.Capacity >= minCapacity);

@@ -1,3 +1,4 @@
+using System.Reflection;
 using ConferenceRoomBooking.Core.Interfaces;
 using ConferenceRoomBooking.Core.Services;
 using ConferenceRoomBooking.Infrastructure.Repositories;
@@ -19,6 +20,13 @@ builder.Services.AddSingleton<IBookingService, BookingService>();
 builder.Services.AddSingleton<IServiceService, ServiceService>();
 builder.Services.AddSingleton<IReportService, ReportService>();
 builder.Services.AddSingleton<IPricingCalculator, PricingCalculator>();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+    options.IncludeXmlComments(xmlPath);
+});
 
 var app = builder.Build();
 

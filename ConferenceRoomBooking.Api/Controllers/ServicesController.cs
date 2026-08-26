@@ -17,7 +17,13 @@ public class ServicesController : ControllerBase
     {
         _serviceService = serviceService;
     }
-
+    /// <summary>
+    /// Створює нову послугу
+    /// </summary>
+    /// <param name="request">Дані для створення послуги</param>
+    /// <returns>Створена послуга з її ID та повною вартістю</returns>
+    /// <response code="201">Послуга успішно створена</response>
+    /// <response code="400">Некоректні дані запиту</response>
     [HttpPost]
     public IActionResult CreateService([FromBody] CreateServiceRequest request)
     {
@@ -31,7 +37,13 @@ public class ServicesController : ControllerBase
 
         return CreatedAtAction(nameof(GetServiceById), new { id = response.Id }, response);
     }
-
+    /// <summary>
+    /// Отримує послугу за її ID.
+    /// </summary>
+    /// <param name="id">ID послуги.</param>
+    /// <returns>Об'єкт послуги.</returns>
+    /// <response code="200">Послуга успішно знайдена.</response>
+    /// <response code="404">Послуга не знайдена.</response>
     [HttpGet("{id}")]
     public IActionResult GetServiceById(Guid id)
     {
@@ -43,14 +55,24 @@ public class ServicesController : ControllerBase
 
         return Ok(MapToResponse(service));
     }
-
+    /// <summary>
+    /// Отримує всі послуги.
+    /// </summary>
+    /// <returns>Колекція об'єктів послуг.</returns>
+    /// <response code="200">Послуги успішно отримані.</response>
     [HttpGet]
     public IActionResult GetAllServices()
     {
         var services = _serviceService.GetAllServices();
         return Ok(services.Select(MapToResponse));
     }
-
+    /// <summary>
+    /// Видаляє послугу за її ID.
+    /// </summary>
+    /// <param name="id">ID послуги.</param>
+    /// <returns>Статус виконання операції.</returns>
+    /// <response code="204">Послуга успішно видалена.</response>
+    /// <response code="404">Послуга не знайдена.</response>
     [HttpDelete("{id}")]
     public IActionResult DeleteService(Guid id)
     {

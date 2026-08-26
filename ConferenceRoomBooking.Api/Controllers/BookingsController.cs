@@ -16,7 +16,16 @@ public class BookingsController : ControllerBase
     {
         _bookingService = bookingService;
     }
-
+    
+    /// <summary>
+    /// Створення нового бронювання.
+    /// </summary>
+    /// <param name="request">Об'єкт з даними про бронювання.</param>
+    /// <returns>Новостворене бронювання з його ID та повною вартістю.</returns>
+    /// <response code="201">Бронювання успішно створено.</response>
+    /// <response code="400">Некоректні дані запиту (невалідна модель або відсутність вільного залу).</response>
+    /// <response code="404">Зал не існує.</response>
+    /// <response code="409">Зал не вільний у цей час</response>
     [HttpPost]
     public IActionResult CreateBooking([FromBody] CreateBookingRequest request)
     {
@@ -37,6 +46,13 @@ public class BookingsController : ControllerBase
         return CreatedAtAction(nameof(GetBookingById), new { id = response.Id }, response);
     }
 
+    /// <summary>
+    /// Отримання бронювання за ID.
+    /// </summary>
+    /// <param name="id">ID бронювання.</param>
+    /// <returns>Об'єкт бронювання.</returns>
+    /// <response code="200">Бронювання успішно отримано.</response>
+    /// <response code="404">Бронювання не знайдено.</response>
     [HttpGet("{id}")]
     public IActionResult GetBookingById(Guid id)
     {
@@ -49,6 +65,11 @@ public class BookingsController : ControllerBase
         return Ok(MapToResponse(booking));
     }
 
+    /// <summary>
+    /// Отримання всіх бронювань.
+    /// </summary>
+    /// <returns>Колекція об'єктів бронювань.</returns>
+    /// <response code="200">Бронювання успішно отримано.</response>
     [HttpGet]
     public IActionResult GetAllBookings()
     {
