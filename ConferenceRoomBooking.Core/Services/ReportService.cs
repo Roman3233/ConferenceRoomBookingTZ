@@ -40,9 +40,9 @@ public class ReportService : IReportService
         var rooms = _roomRepository.GetAll();
         var report = new List<(Guid RoomId, string RoomName, double TotalHoursBooked, double OccupancyRate)>();
 
-        // Робочий день триває 15 годин
+        // Робочий день триває з 06:00 до 23:00 = 17 годин
         int daysCount = endDate.DayNumber - startDate.DayNumber + 1;
-        double totalAvailableHoursPerRoom = daysCount * 15.0;
+        double totalAvailableHoursPerRoom = daysCount * 17.0;
 
         foreach (var room in rooms)
         {

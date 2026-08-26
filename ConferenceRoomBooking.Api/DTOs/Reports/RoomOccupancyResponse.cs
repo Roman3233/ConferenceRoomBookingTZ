@@ -1,5 +1,3 @@
-using System;
-
 namespace ConferenceRoomBooking.Api.DTOs.Reports;
 
 public class RoomOccupancyResponse
