@@ -15,6 +15,14 @@ builder.Services.AddSingleton<IBookingAvailabilityChecker, BookingAvailabilityCh
 
 var app = builder.Build();
 
+// Заповнюємо сховище початковими даними при старті застосунку.
+using (var scope = app.Services.CreateScope())
+{
+    var serviceRepository = scope.ServiceProvider.GetRequiredService<IServiceRepository>();
+    var roomRepository = scope.ServiceProvider.GetRequiredService<IRoomRepository>();
+    ConferenceRoomBooking.Infrastructure.DataSeeder.SeedInitialData(serviceRepository, roomRepository);
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
