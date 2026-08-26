@@ -1,7 +1,7 @@
 using ConferenceRoomBooking.Core.Interfaces;
 
 namespace ConferenceRoomBooking.Core.Services;
-// Клас для перевірки доступності бронювань та уникнення дублювання коду в різних сервісах.
+// Клас для перевірки доступності бронювань та уникнення дублювання коду в сервісах BookingService та RoomService.
 public class BookingAvailabilityChecker : IBookingAvailabilityChecker
 {
     private readonly IBookingRepository _bookingRepository;
