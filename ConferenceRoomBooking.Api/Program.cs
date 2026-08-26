@@ -15,6 +15,7 @@ builder.Services.AddSingleton<IServiceRepository, InMemoryServiceRepository>();
 builder.Services.AddSingleton<IBookingAvailabilityChecker, BookingAvailabilityChecker>();
 builder.Services.AddSingleton<IRoomService, RoomService>();
 builder.Services.AddSingleton<IBookingService, BookingService>();
+builder.Services.AddSingleton<IServiceService, ServiceService>();
 builder.Services.AddSingleton<IPricingCalculator, PricingCalculator>();
 
 var app = builder.Build();
