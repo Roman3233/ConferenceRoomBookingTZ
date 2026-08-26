@@ -97,4 +97,14 @@ public class RoomService : IRoomService
 
         return candidateRooms.Where(room => !_bookingAvailabilityChecker.HasConflictingBooking(room.Id, date, startTime, endTime));
     }
+
+    public Room? GetRoomById(Guid roomId)
+    {
+        return _roomRepository.GetById(roomId);
+    }
+
+    public IEnumerable<Room> GetAllRooms()
+    {
+        return _roomRepository.GetAll();
+    }
 }
