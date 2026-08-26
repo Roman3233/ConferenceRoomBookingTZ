@@ -1,6 +1,7 @@
 using ConferenceRoomBooking.Core.Interfaces;
 using ConferenceRoomBooking.Core.Services;
 using ConferenceRoomBooking.Infrastructure.Repositories;
+using ConferenceRoomBooking.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ builder.Services.AddSingleton<IServiceService, ServiceService>();
 builder.Services.AddSingleton<IPricingCalculator, PricingCalculator>();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Заповнюємо сховище початковими даними при старті застосунку.
 using (var scope = app.Services.CreateScope())
