@@ -80,4 +80,14 @@ public class BookingService : IBookingService
         return _bookingRepository.Add(booking);
 
     }
+
+    public Booking? GetBookingById(Guid bookingId)
+    {
+        return _bookingRepository.GetById(bookingId);
+    }
+
+    public IEnumerable<Booking> GetAllBookings()
+    {
+        return _bookingRepository.GetAll();
+    }
 }
