@@ -1,5 +1,8 @@
+using System;
+using System.Linq;
 using ConferenceRoomBooking.Api.DTOs.Services;
 using ConferenceRoomBooking.Core.Interfaces;
+using ConferenceRoomBooking.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ConferenceRoomBooking.Api.Controllers;
@@ -24,33 +27,9 @@ public class ServicesController : ControllerBase
         }
 
         var service = _serviceService.CreateService(request.Name, request.Price);
+        var response = MapToResponse(service);
 
-        var response = new ServiceResponse
-        {
-            Id = service.Id,
-            Name = service.Name,
-            Price = service.Price
-        };
         return CreatedAtAction(nameof(GetServiceById), new { id = response.Id }, response);
-    }
-
-    [HttpDelete("{id}")]
-    public IActionResult DeleteService(Guid id)
-    {
-        _serviceService.DeleteService(id);
-        return NoContent();
-    }
-
-    [HttpGet]
-    public IActionResult GetAllServices()
-    {
-        var services = _serviceService.GetAllServices();
-        return Ok(services.Select(service => new ServiceResponse
-        {
-            Id = service.Id,
-            Name = service.Name,
-            Price = service.Price
-        }));
     }
 
     [HttpGet("{id}")]
@@ -62,11 +41,37 @@ public class ServicesController : ControllerBase
             return NotFound();
         }
 
-        return Ok(new ServiceResponse
+        return Ok(MapToResponse(service));
+    }
+
+    [HttpGet]
+    public IActionResult GetAllServices()
+    {
+        var services = _serviceService.GetAllServices();
+        return Ok(services.Select(MapToResponse));
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteService(Guid id)
+    {
+        try
+        {
+            _serviceService.DeleteService(id);
+            return NoContent();
+        }
+        catch (InvalidOperationException ex)
+        {
+            return NotFound(ex.Message);
+        }
+    }
+
+    private static ServiceResponse MapToResponse(Service service)
+    {
+        return new ServiceResponse
         {
             Id = service.Id,
             Name = service.Name,
             Price = service.Price
-        });
+        };
     }
 }
